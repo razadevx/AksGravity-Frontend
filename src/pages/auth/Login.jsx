@@ -1,69 +1,62 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import api from "../../services/api";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
-    try {
-      setLoading(true);
-      const res = await api.post("/auth/login", { email, password });
-      localStorage.setItem("token", res.data.token);
-      navigate("/dashboard");
-    } catch (err) {
-      alert(err.response?.data?.message || "Login failed");
-    } finally {
-      setLoading(false);
-    }
+    // TEMP: simulate login
+    localStorage.setItem("token", "aks-demo-token");
+    navigate("/dashboard");
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-900 to-purple-900">
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-8">
-        <h1 className="text-2xl font-bold text-center mb-2">AKS DigiRec</h1>
-        <p className="text-center text-gray-500 mb-6">
-          Smart Business Solutions
+    <div className="min-h-screen flex">
+      {/* Left Branding */}
+      <div className="hidden md:flex w-1/2 aks-gradient text-white flex-col justify-center p-12">
+        <h1 className="text-4xl font-bold">AKS DigiRec</h1>
+        <p className="mt-4 text-lg">
+          Smart Business Solutions for Ceramics Industry
         </p>
+      </div>
 
-        <form onSubmit={handleLogin} className="space-y-4">
-          <input
-            type="email"
-            placeholder="Email"
-            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+      {/* Right Form */}
+      <div className="w-full md:w-1/2 flex items-center justify-center">
+        <div className="w-full max-w-md p-8">
+          <h2 className="text-2xl font-bold mb-6">Login to your account</h2>
 
-          <input
-            type="password"
-            placeholder="Password"
-            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+          <form onSubmit={handleLogin} className="space-y-4">
+            <input
+              type="email"
+              placeholder="Email Address"
+              className="w-full border px-4 py-2 rounded-lg focus:ring-2 focus:ring-purple-600"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition"
-          >
-            {loading ? "Signing in..." : "Login"}
-          </button>
-        </form>
+            <input
+              type="password"
+              placeholder="Password"
+              className="w-full border px-4 py-2 rounded-lg focus:ring-2 focus:ring-purple-600"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
 
-        <p className="text-center text-sm mt-4">
-          Don’t have an account?{" "}
-          <Link to="/register" className="text-indigo-600 font-semibold">
-            Register
-          </Link>
-        </p>
+            <button className="w-full bg-purple-700 text-white py-2 rounded-lg hover:bg-purple-800">
+              Login
+            </button>
+          </form>
+
+          <p className="mt-4 text-sm">
+            Don’t have an account?{" "}
+            <Link to="/register" className="text-purple-700 font-semibold">
+              Register
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );
