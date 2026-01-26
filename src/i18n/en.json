@@ -1,0 +1,62 @@
+{
+    "common": {
+        "companyName": "AKS DigiRec",
+        "tagline": "Abdullah & Khubaib Smart Business Solutions",
+        "logout": "Logout",
+        "profile": "Profile",
+        "settings": "Settings"
+    },
+    "nav": {
+        "home": "Home",
+        "dashboard": "Dashboard",
+        "masterData": "Master Data",
+        "workers": "Workers",
+        "dailyCashRegister": "Daily Cash Register",
+        "bankCheques": "Bank & Cheques",
+        "compositionManager": "Composition Manager",
+        "production": "Production",
+        "reports": "Reports"
+    },
+    "language": {
+        "english": "ENG",
+        "urdu": "اردو",
+        "both": "ENG + اردو"
+    },
+    "auth": {
+        "login": "Login",
+        "register": "Register",
+        "forgotPassword": "Forgot Password",
+        "email": "Email Address",
+        "password": "Password",
+        "confirmPassword": "Confirm Password",
+        "fullName": "Full Name",
+        "company": "Company",
+        "role": "Role",
+        "rememberMe": "Remember Me",
+        "loginButton": "Sign In",
+        "registerButton": "Create Account",
+        "resetButton": "Reset Password",
+        "alreadyHaveAccount": "Already have an account?",
+        "dontHaveAccount": "Don't have an account?",
+        "backToLogin": "Back to Login"
+    },
+    "dashboard": {
+        "title": "Dashboard - Today's Overview",
+        "cashInHand": "Cash in Hand",
+        "bankBalance": "Bank Balance",
+        "receivables": "Receivables",
+        "payables": "Payables",
+        "stockValue": "Stock Value",
+        "finishedItems": "Finished Items",
+        "alerts": "Alarms / Warnings",
+        "noAlerts": "No active warnings",
+        "todayActivities": "Today's Activities Running",
+        "noActivities": "No activities recorded yet",
+        "currency": "Rs."
+    },
+    "roles": {
+        "superAdmin": "Super Admin",
+        "admin": "Admin",
+        "operator": "Operator"
+    }
+}

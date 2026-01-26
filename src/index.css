@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* RTL Support */
+[dir="rtl"] {
+  direction: rtl;
+  font-family: 'Noto Nastaliq Urdu', serif;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #94a3b8;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+/* Smooth Transitions */
+button, a, input, select, textarea {
+  transition: all 0.3s ease;
+}
+
+/* Custom Components */
+@layer components {
+  .btn-primary {
+    @apply bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2.5 rounded-lg font-medium 
+    hover:shadow-lg hover:scale-105 active:scale-95 transition-all duration-300;
+  }
+
+  .btn-secondary {
+    @apply bg-white text-gray-700 px-6 py-2.5 rounded-lg font-medium border border-gray-300
+    hover:bg-gray-50 hover:shadow-md active:scale-95 transition-all duration-300;
+  }
+
+  .card {
+    @apply bg-white rounded-xl shadow-card p-6 hover:shadow-card-hover transition-shadow duration-300;
+  }
+
+  .card-dark {
+    @apply bg-gradient-to-br from-blue-900/90 to-purple-900/90 backdrop-blur-sm rounded-xl shadow-card p-6 
+    text-white hover:shadow-card-hover transition-all duration-300;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 
+    focus:ring-blue-200 outline-none transition-all duration-300;
+  }
+
+  .nav-button {
+    @apply px-4 py-2.5 rounded-lg font-medium text-sm transition-all duration-300
+    hover:bg-white/20 hover:shadow-md active:scale-95;
+  }
+
+  .nav-button-active {
+    @apply bg-white/30 shadow-md;
+  }
+
+  .gradient-bg {
+    @apply bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700;
+  }
+}
