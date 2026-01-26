@@ -2,15 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Optional global styles */
 body {
-  font-family: "Inter", sans-serif;
-  background: #f4f6fb;
-}
-
-.aks-gradient {
-  background: linear-gradient(135deg, #1e1b4b, #4c1d95);
-}
-
-.aks-card {
-  @apply bg-white rounded-xl shadow-md p-5 hover:shadow-lg transition;
+  font-family: Inter, system-ui, sans-serif;
 }
