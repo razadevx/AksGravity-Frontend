@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { Provider, useSelector } from "react-redux";
+import { Provider } from "react-redux";
 import { store } from "./store/store";
 import "./index.css";
 
@@ -8,20 +8,20 @@ import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import Dashboard from "./pages/Dashboard";
 
-// Protected Route
+// Protected Route (token-based)
 const ProtectedRoute = ({ children }) => {
-  const { isAuthenticated } = useSelector((state) => state.auth || {});
-  return isAuthenticated ? children : <Navigate to="/login" replace />;
+  const token = localStorage.getItem("token");
+  return token ? children : <Navigate to="/login" replace />;
 };
 
 function AppRoutes() {
   return (
     <Routes>
-      {/* Public */}
+      {/* Public Routes */}
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
 
-      {/* Protected */}
+      {/* Protected Routes */}
       <Route
         path="/dashboard"
         element={
@@ -31,8 +31,9 @@ function AppRoutes() {
         }
       />
 
-      {/* Default */}
+      {/* Default Route */}
       <Route path="/" element={<Navigate to="/dashboard" />} />
+      <Route path="*" element={<Navigate to="/dashboard" />} />
     </Routes>
   );
 }

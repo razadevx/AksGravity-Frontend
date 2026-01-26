@@ -1,62 +1,81 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import api from "../../services/api";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const [form, setForm] = useState({ email: "", password: "" });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleLogin = (e) => {
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TEMP: simulate login
-    localStorage.setItem("token", "aks-demo-token");
-    navigate("/dashboard");
+    setLoading(true);
+    setError("");
+
+    try {
+      const res = await api.post("/auth/login", form);
+      localStorage.setItem("token", res.data.token);
+      navigate("/dashboard"); // ✅ redirect after login
+    } catch (err) {
+      setError(err.response?.data?.message || "Login failed");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="min-h-screen flex">
-      {/* Left Branding */}
-      <div className="hidden md:flex w-1/2 aks-gradient text-white flex-col justify-center p-12">
-        <h1 className="text-4xl font-bold">AKS DigiRec</h1>
-        <p className="mt-4 text-lg">
-          Smart Business Solutions for Ceramics Industry
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500">
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8">
+        <h1 className="text-3xl font-bold text-center mb-2">AKS DigiRec</h1>
+        <p className="text-center text-gray-500 mb-6">
+          Smart Business Solutions
         </p>
-      </div>
 
-      {/* Right Form */}
-      <div className="w-full md:w-1/2 flex items-center justify-center">
-        <div className="w-full max-w-md p-8">
-          <h2 className="text-2xl font-bold mb-6">Login to your account</h2>
+        {error && (
+          <div className="bg-red-100 text-red-600 p-2 rounded mb-4 text-sm">
+            {error}
+          </div>
+        )}
 
-          <form onSubmit={handleLogin} className="space-y-4">
-            <input
-              type="email"
-              placeholder="Email Address"
-              className="w-full border px-4 py-2 rounded-lg focus:ring-2 focus:ring-purple-600"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            type="email"
+            name="email"
+            placeholder="Email Address"
+            className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none"
+            onChange={handleChange}
+            required
+          />
 
-            <input
-              type="password"
-              placeholder="Password"
-              className="w-full border px-4 py-2 rounded-lg focus:ring-2 focus:ring-purple-600"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none"
+            onChange={handleChange}
+            required
+          />
 
-            <button className="w-full bg-purple-700 text-white py-2 rounded-lg hover:bg-purple-800">
-              Login
-            </button>
-          </form>
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg font-semibold transition"
+          >
+            {loading ? "Signing in..." : "Login"}
+          </button>
+        </form>
 
-          <p className="mt-4 text-sm">
-            Don’t have an account?{" "}
-            <Link to="/register" className="text-purple-700 font-semibold">
-              Register
-            </Link>
-          </p>
-        </div>
+        <p className="text-center text-sm mt-4">
+          Don’t have an account?{" "}
+          <Link to="/register" className="text-indigo-600 font-semibold">
+            Register
+          </Link>
+        </p>
       </div>
     </div>
   );
