@@ -1,10 +1,10 @@
-import { Link } from "react-router-dom";
+import { useLanguage } from "../../i18n/LanguageContext";
 
 export default function TopNav() {
-  const user = JSON.parse(localStorage.getItem("user"));
+  const { lang, setLang } = useLanguage();
 
   return (
-    <header className="bg-white shadow-sm sticky top-0 z-50">
+    <div className="bg-white border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
 
         {/* Logo */}
@@ -13,36 +13,50 @@ export default function TopNav() {
             AKS
           </div>
           <div>
-            <h1 className="font-bold text-gray-800">AKS DigiRec</h1>
+            <h1 className="font-bold text-lg">AKS DigiRec</h1>
             <p className="text-xs text-gray-500">Ceramics ERP System</p>
           </div>
         </div>
 
         {/* Navigation */}
-        <nav className="hidden md:flex gap-6 text-sm font-medium text-gray-600">
-          <Link to="/dashboard" className="hover:text-purple-600">Dashboard</Link>
-          <Link to="/master-data" className="hover:text-purple-600">Master Data</Link>
-          <Link to="/workers" className="hover:text-purple-600">Workers</Link>
-          <Link to="/production" className="hover:text-purple-600">Production</Link>
-          <Link to="/cash-register" className="hover:text-purple-600">Cash Register</Link>
-        </nav>
+        <div className="hidden md:flex gap-6 text-sm font-medium text-gray-600">
+          <span className="hover:text-purple-600 cursor-pointer">Dashboard</span>
+          <span className="hover:text-purple-600 cursor-pointer">Master Data</span>
+          <span className="hover:text-purple-600 cursor-pointer">Workers</span>
+          <span className="hover:text-purple-600 cursor-pointer">Production</span>
+          <span className="hover:text-purple-600 cursor-pointer">Cash Register</span>
+        </div>
 
-        {/* User */}
-        <div className="flex items-center gap-3">
-          <span className="text-sm text-gray-600">
-            {user?.adminName || "Admin"}
-          </span>
-          <button
-            onClick={() => {
-              localStorage.clear();
-              window.location.href = "/login";
-            }}
-            className="text-xs px-3 py-1 bg-red-50 text-red-600 rounded hover:bg-red-100"
-          >
+        {/* Right Section */}
+        <div className="flex items-center gap-4">
+
+          {/* Language Toggle */}
+          <div className="flex bg-gray-100 rounded-full overflow-hidden text-xs border border-gray-200">
+            {["EN", "UR", "BOTH"].map((l) => (
+              <button
+                key={l}
+                onClick={() => setLang(l)}
+                className={`px-3 py-1 transition ${
+                  lang === l
+                    ? "bg-purple-600 text-white font-semibold"
+                    : "text-gray-600 hover:bg-gray-200"
+                }`}
+              >
+                {l}
+              </button>
+            ))}
+          </div>
+
+          {/* User */}
+          <div className="text-sm text-gray-600">
+            razadevx
+          </div>
+
+          <button className="text-xs px-3 py-1 rounded-lg bg-red-50 text-red-600 hover:bg-red-100">
             Logout
           </button>
         </div>
       </div>
-    </header>
+    </div>
   );
 }
