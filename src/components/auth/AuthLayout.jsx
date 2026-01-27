@@ -1,31 +1,79 @@
-import React from "react";
+import { translate as tr } from "../../i18n/translate";
 
-export default function AuthLayout({ title, subtitle, children }) {
+export default function AuthLayout({ lang, setLang, children, title, subtitle }) {
   return (
-    <div className="min-h-screen flex bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600">
-      
-      {/* Left Branding Panel */}
-      <div className="hidden lg:flex w-1/2 flex-col justify-center items-center text-white px-10">
-        <h1 className="text-4xl font-bold mb-4">AKS DigiRec</h1>
-        <p className="text-lg opacity-90 mb-6">
-          Smart Business Solutions for Ceramics Industry
-        </p>
+    <div className="min-h-screen bg-gradient-to-br from-indigo-700 via-purple-700 to-pink-600 text-white flex flex-col">
 
-        <div className="bg-white/10 backdrop-blur-md p-6 rounded-xl text-sm leading-relaxed">
-          <p>✔ Production Management</p>
-          <p>✔ Workers & Payroll</p>
-          <p>✔ Inventory & Stock</p>
-          <p>✔ Financial Reports</p>
+      {/* ================= TOP BAR ================= */}
+      <div className="flex justify-between items-center px-6 py-3 bg-black/30 backdrop-blur-md">
+
+        {/* Left: Logo + Company Info */}
+        <div className="flex items-center gap-3">
+          <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-purple-700 font-bold">
+            AKS
+          </div>
+          <div>
+            <h1 className="text-lg font-bold">
+              {tr("header.title", lang)}
+            </h1>
+            <p className="text-xs opacity-80">
+              {tr("header.subtitle", lang)}
+            </p>
+          </div>
+        </div>
+
+        {/* Right: Contact + Language */}
+        <div className="flex items-center gap-4 text-sm">
+          <span>📱 +92 300 6238557</span>
+          <span>✉️ aksdigirec@gmail.com</span>
+
+          <div className="flex bg-white/20 rounded-full overflow-hidden text-xs">
+            {["EN", "UR", "BOTH"].map((l) => (
+              <button
+                key={l}
+                onClick={() => setLang(l)}
+                className={`px-3 py-1 transition ${
+                  lang === l ? "bg-white text-purple-700 font-semibold" : ""
+                }`}
+              >
+                {l}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* Right Form Panel */}
-      <div className="w-full lg:w-1/2 flex justify-center items-center bg-white">
-        <div className="w-full max-w-md p-8">
-          <h2 className="text-2xl font-bold text-gray-800">{title}</h2>
-          <p className="text-gray-500 mb-6">{subtitle}</p>
+      {/* ================= MAIN SECTION ================= */}
+      <div className="flex flex-1">
 
-          {children}
+        {/* LEFT SECTION */}
+        <div className="hidden md:flex w-1/2 p-10 flex-col justify-center">
+          <h2 className="text-3xl font-bold mb-4">
+            {tr("features.f1", lang)}
+          </h2>
+
+          <ul className="space-y-3 text-sm opacity-90 mb-6">
+            <li>✔ {tr("features.f1", lang)}</li>
+            <li>✔ {tr("features.f2", lang)}</li>
+            <li>✔ {tr("features.f3", lang)}</li>
+          </ul>
+
+          <div className="bg-black/30 rounded-xl p-4 w-full max-w-lg shadow-lg">
+            <p className="text-xs opacity-70">AKS DigiRec Demo Preview</p>
+            <div className="mt-3 bg-black/50 rounded-lg h-40 flex items-center justify-center text-sm opacity-60">
+              ▶ Demo Video / Image Here
+            </div>
+          </div>
+        </div>
+
+        {/* RIGHT SECTION (FORM SLOT) */}
+        <div className="w-full md:w-1/2 flex items-center justify-center bg-white text-gray-800">
+          <div className="w-full max-w-md p-8">
+            <h2 className="text-2xl font-bold mb-2">{title}</h2>
+            <p className="text-sm text-gray-500 mb-6">{subtitle}</p>
+
+            {children}
+          </div>
         </div>
       </div>
     </div>

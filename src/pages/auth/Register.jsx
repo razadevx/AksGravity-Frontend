@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import api from "../../services/api";
+import { translate as tr } from "../../i18n/translate";
+import AuthLayout from "../../components/auth/AuthLayout";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -12,6 +14,7 @@ export default function Register() {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [lang, setLang] = useState("EN");
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -37,35 +40,76 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="bg-white shadow-xl rounded-xl p-8 w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-center">Create Account</h2>
+    <AuthLayout
+      lang={lang}
+      setLang={setLang}
+      title={tr("register.title", lang)}
+      subtitle="Register your company to start using AKS DigiRec"
+    >
+      {error && <p className="text-red-500 mb-3">{error}</p>}
 
-        {error && <p className="text-red-500 mb-3">{error}</p>}
+      <form onSubmit={handleSubmit} className="space-y-4">
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input name="companyName" placeholder="Company Name" onChange={handleChange}
-            className="w-full border p-2 rounded" />
+        <div>
+          <label className="text-sm font-medium">
+            {tr("register.companyName", lang)}
+          </label>
+          <input
+            name="companyName"
+            onChange={handleChange}
+            className="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
+          />
+        </div>
 
-          <input name="adminName" placeholder="Admin Name" onChange={handleChange}
-            className="w-full border p-2 rounded" />
+        <div>
+          <label className="text-sm font-medium">
+            {tr("register.adminName", lang)}
+          </label>
+          <input
+            name="adminName"
+            onChange={handleChange}
+            className="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
+          />
+        </div>
 
-          <input name="email" type="email" placeholder="Email" onChange={handleChange}
-            className="w-full border p-2 rounded" />
+        <div>
+          <label className="text-sm font-medium">
+            {tr("register.email", lang)}
+          </label>
+          <input
+            name="email"
+            type="email"
+            onChange={handleChange}
+            className="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
+          />
+        </div>
 
-          <input name="password" type="password" placeholder="Password" onChange={handleChange}
-            className="w-full border p-2 rounded" />
+        <div>
+          <label className="text-sm font-medium">
+            {tr("register.password", lang)}
+          </label>
+          <input
+            name="password"
+            type="password"
+            onChange={handleChange}
+            className="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
+          />
+        </div>
 
-          <button disabled={loading}
-            className="w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700">
-            {loading ? "Registering..." : "Register"}
-          </button>
-        </form>
+        <button
+          disabled={loading}
+          className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-2 rounded-lg font-semibold hover:opacity-90 transition"
+        >
+          {loading ? tr("register.loading", lang) : tr("register.button", lang)}
+        </button>
+      </form>
 
-        <p className="mt-4 text-center text-sm">
-          Already have an account? <Link to="/login" className="text-purple-600">Login</Link>
-        </p>
-      </div>
-    </div>
+      <p className="mt-4 text-sm text-center">
+        {tr("register.haveAccount", lang)}{" "}
+        <Link to="/login" className="text-purple-600 font-semibold">
+          {tr("register.login", lang)}
+        </Link>
+      </p>
+    </AuthLayout>
   );
 }

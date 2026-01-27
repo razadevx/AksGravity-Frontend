@@ -29,10 +29,10 @@ export const dictionary = {
       ur: "ڈیش بورڈ میں لاگ ان کریں",
     },
     registerText: {
-      en: "Don’t have an account?",
+      en: "Don't have an account?",
       ur: "اکاؤنٹ نہیں ہے؟",
     },
-    register: {
+    registerLink: {
       en: "Register",
       ur: "رجسٹر کریں",
     },
@@ -61,6 +61,45 @@ export const dictionary = {
     f3: {
       en: "Daily cash, bank & supplier management",
       ur: "روزانہ کیش، بینک اور سپلائر مینجمنٹ",
+    },
+  },
+
+  register: {
+    title: {
+      en: "Create Account",
+      ur: "اکاؤنٹ بنائیں",
+    },
+    companyName: {
+      en: "Company Name",
+      ur: "کمپنی کا نام",
+    },
+    adminName: {
+      en: "Admin Name",
+      ur: "ایڈمن کا نام",
+    },
+    email: {
+      en: "Email",
+      ur: "ای میل",
+    },
+    password: {
+      en: "Password",
+      ur: "پاس ورڈ",
+    },
+    button: {
+      en: "Register",
+      ur: "رجسٹر کریں",
+    },
+    loading: {
+      en: "Registering...",
+      ur: "رجسٹر ہو رہا ہے...",
+    },
+    haveAccount: {
+      en: "Already have an account?",
+      ur: "اکاؤنٹ پہلے سے موجود ہے؟",
+    },
+    login: {
+      en: "Login",
+      ur: "لاگ ان کریں",
     },
   },
 };
