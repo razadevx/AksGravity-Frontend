@@ -1,14 +1,10 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import api from "../../services/api";
-import AuthLayout from "../../components/auth/AuthLayout";
-import Input from "../../components/auth/Input";
-import Button from "../../components/auth/Button";
 
 export default function Login() {
   const navigate = useNavigate();
   const [form, setForm] = useState({ email: "", password: "" });
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const handleChange = (e) => {
@@ -17,61 +13,43 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     setError("");
 
     try {
       const res = await api.post("/auth/login", form);
+
       localStorage.setItem("token", res.data.token);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+
       navigate("/dashboard");
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");
-    } finally {
-      setLoading(false);
     }
   };
 
   return (
-    <AuthLayout
-      title="Login to AKS DigiRec"
-      subtitle="Enter your credentials to access your ERP system"
-    >
-      <form onSubmit={handleSubmit}>
-        {error && (
-          <div className="bg-red-100 text-red-600 p-2 rounded mb-4 text-sm">
-            {error}
-          </div>
-        )}
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="bg-white shadow-xl rounded-xl p-8 w-full max-w-md">
+        <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
 
-        <Input
-          label="Email Address"
-          name="email"
-          type="email"
-          value={form.email}
-          onChange={handleChange}
-          required
-        />
+        {error && <p className="text-red-500 mb-3">{error}</p>}
 
-        <Input
-          label="Password"
-          name="password"
-          type="password"
-          value={form.password}
-          onChange={handleChange}
-          required
-        />
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input name="email" type="email" placeholder="Email"
+            onChange={handleChange} className="w-full border p-2 rounded" />
 
-        <Button disabled={loading}>
-          {loading ? "Logging in..." : "Login"}
-        </Button>
+          <input name="password" type="password" placeholder="Password"
+            onChange={handleChange} className="w-full border p-2 rounded" />
 
-        <p className="text-sm text-gray-600 mt-4 text-center">
-          Don’t have an account?{" "}
-          <Link to="/register" className="text-indigo-600 font-semibold">
-            Register
-          </Link>
+          <button className="w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700">
+            Login
+          </button>
+        </form>
+
+        <p className="mt-4 text-center text-sm">
+          Don’t have an account? <Link to="/register" className="text-purple-600">Register</Link>
         </p>
-      </form>
-    </AuthLayout>
+      </div>
+    </div>
   );
 }

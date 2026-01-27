@@ -10,24 +10,15 @@ function Stat({ title, value }) {
   );
 }
 
-// Main Dashboard Component
+
 export default function Dashboard() {
+  const user = JSON.parse(localStorage.getItem("user"));
+
   return (
-    <div className="min-h-screen bg-gray-100">
-      <Navbar />
-
-      <div className="p-6">
-        <h1 className="text-2xl font-bold mb-6">Dashboard - Today's Overview</h1>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Stat title="Cash in Hand" value="Rs. 0" />
-          <Stat title="Bank Balance" value="Rs. 0" />
-          <Stat title="Receivables" value="Rs. 0" />
-          <Stat title="Payables" value="Rs. 0" />
-          <Stat title="Stock Value" value="Rs. 0" />
-          <Stat title="Finished Items" value="0" />
-        </div>
-      </div>
+    <div className="p-6">
+      <h1 className="text-2xl font-bold">Welcome, {user?.adminName}</h1>
+      <p className="text-gray-500">Company: {user?.companyName}</p>
     </div>
   );
 }
+

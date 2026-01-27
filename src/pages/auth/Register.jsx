@@ -1,9 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import api from "../../services/api";
-import AuthLayout from "../../components/auth/AuthLayout";
-import Input from "../../components/auth/Input";
-import Button from "../../components/auth/Button";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -26,8 +23,12 @@ export default function Register() {
     setError("");
 
     try {
-      await api.post("/auth/register", form);
-      navigate("/login");
+      const res = await api.post("/auth/register", form);
+
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+
+      navigate("/dashboard");
     } catch (err) {
       setError(err.response?.data?.message || "Registration failed");
     } finally {
@@ -36,62 +37,35 @@ export default function Register() {
   };
 
   return (
-    <AuthLayout
-      title="Create AKS DigiRec Account"
-      subtitle="Register your company to start using the ERP system"
-    >
-      <form onSubmit={handleSubmit}>
-        {error && (
-          <div className="bg-red-100 text-red-600 p-2 rounded mb-4 text-sm">
-            {error}
-          </div>
-        )}
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="bg-white shadow-xl rounded-xl p-8 w-full max-w-md">
+        <h2 className="text-2xl font-bold mb-6 text-center">Create Account</h2>
 
-        <Input
-          label="Company Name"
-          name="companyName"
-          value={form.companyName}
-          onChange={handleChange}
-          required
-        />
+        {error && <p className="text-red-500 mb-3">{error}</p>}
 
-        <Input
-          label="Admin Name"
-          name="adminName"
-          value={form.adminName}
-          onChange={handleChange}
-          required
-        />
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input name="companyName" placeholder="Company Name" onChange={handleChange}
+            className="w-full border p-2 rounded" />
 
-        <Input
-          label="Email Address"
-          name="email"
-          type="email"
-          value={form.email}
-          onChange={handleChange}
-          required
-        />
+          <input name="adminName" placeholder="Admin Name" onChange={handleChange}
+            className="w-full border p-2 rounded" />
 
-        <Input
-          label="Password"
-          name="password"
-          type="password"
-          value={form.password}
-          onChange={handleChange}
-          required
-        />
+          <input name="email" type="email" placeholder="Email" onChange={handleChange}
+            className="w-full border p-2 rounded" />
 
-        <Button disabled={loading}>
-          {loading ? "Creating account..." : "Register"}
-        </Button>
+          <input name="password" type="password" placeholder="Password" onChange={handleChange}
+            className="w-full border p-2 rounded" />
 
-        <p className="text-sm text-gray-600 mt-4 text-center">
-          Already have an account?{" "}
-          <Link to="/login" className="text-indigo-600 font-semibold">
-            Login
-          </Link>
+          <button disabled={loading}
+            className="w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700">
+            {loading ? "Registering..." : "Register"}
+          </button>
+        </form>
+
+        <p className="mt-4 text-center text-sm">
+          Already have an account? <Link to="/login" className="text-purple-600">Login</Link>
         </p>
-      </form>
-    </AuthLayout>
+      </div>
+    </div>
   );
 }
