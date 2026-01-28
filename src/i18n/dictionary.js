@@ -102,4 +102,105 @@ export const dictionary = {
       ur: "لاگ ان کریں",
     },
   },
+  dashboard: {
+    title: {
+      en: "Dashboard Overview",
+      ur: "ڈیش بورڈ کا جائزہ",
+    },
+    cashInHand: {
+      en: "Cash in Hand",
+      ur: "نقد رقم",
+    },
+    bankBalance: {
+      en: "Bank Balance",
+      ur: "بینک بیلنس",
+    },
+    receivables: {
+      en: "Receivables",
+      ur: "وصولیاں",
+    },
+    payables: {
+      en: "Payables",
+      ur: "ادائیگیاں",
+    },
+    stockValue: {
+      en: "Stock Value",
+      ur: "اسٹاک کی قیمت",
+    },
+    finishedItems: {
+      en: "Finished Items",
+      ur: "تیار شدہ اشیاء",
+    },
+  },
+  production: {
+  title: {
+    en: "Production Overview",
+    ur: "پیداوار کا جائزہ",
+  },
+  todayProduction: {
+    en: "Today Production",
+    ur: "آج کی پیداوار",
+  },
+  monthlyProduction: {
+    en: "Monthly Production",
+    ur: "ماہانہ پیداوار",
+  },
+  defectiveItems: {
+    en: "Defective Items",
+    ur: "خراب اشیاء",
+  },
+  finishedGoods: {
+    en: "Finished Goods",
+    ur: "تیار شدہ سامان",
+  },
+},
+actions: {
+  title: {
+    en: "Quick Actions",
+    ur: "فوری اقدامات",
+  },
+  addWorker: {
+    en: "Add Worker",
+    ur: "مزدور شامل کریں",
+  },
+  newProduction: {
+    en: "New Production",
+    ur: "نئی پیداوار",
+  },
+  addExpense: {
+    en: "Add Expense",
+    ur: "خرچ شامل کریں",
+  },
+  addStock: {
+    en: "Add Stock",
+    ur: "اسٹاک شامل کریں",
+  },
+  createReport: {
+    en: "Create Report",
+    ur: "رپورٹ بنائیں",
+  },
+},
+activity: {
+  title: {
+    en: "Recent Activities",
+    ur: "حالیہ سرگرمیاں",
+  },
+  workerAdded: {
+    en: "Worker Ali added to Production Section",
+    ur: "مزدور علی کو پیداواری سیکشن میں شامل کیا گیا",
+  },
+  cashExpense: {
+    en: "Cash expense recorded: Rs. 5,000",
+    ur: "نقد خرچ درج کیا گیا: 5,000 روپے",
+  },
+  batchProduced: {
+    en: "New batch produced: Batch #102",
+    ur: "نیا بیچ تیار کیا گیا: بیچ نمبر 102",
+  },
+  stockUpdated: {
+    en: "Stock updated: Clay +200kg",
+    ur: "اسٹاک اپڈیٹ: مٹی +200 کلو",
+  },
+},
+
 };
