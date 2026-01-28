@@ -1,9 +1,14 @@
 import { translate as tr } from "../../i18n/translate";
+import { useLanguage } from "../../i18n/LanguageContext";
 
-export default function AuthLayout({ lang, setLang, children, title, subtitle }) {
+export default function AuthLayout({ children, titleKey, subtitleKey }) {
+  const { lang, setLang } = useLanguage();
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-700 via-purple-700 to-pink-600 text-white flex flex-col">
-
+    <div
+      className="min-h-screen bg-gradient-to-br from-indigo-700 via-purple-700 to-pink-600 text-white flex flex-col"
+      dir="ltr"   // ✅ Prevent Urdu from flipping layout
+    >
       {/* ================= TOP BAR ================= */}
       <div className="flex justify-between items-center px-6 py-3 bg-black/30 backdrop-blur-md">
 
@@ -24,9 +29,11 @@ export default function AuthLayout({ lang, setLang, children, title, subtitle })
 
         {/* Right: Contact + Language */}
         <div className="flex items-center gap-4 text-sm">
+
           <span>📱 +92 300 6238557</span>
           <span>✉️ aksdigirec@gmail.com</span>
 
+          {/* Language Toggle */}
           <div className="flex bg-white/20 rounded-full overflow-hidden text-xs">
             {["EN", "UR", "BOTH"].map((l) => (
               <button
@@ -40,16 +47,18 @@ export default function AuthLayout({ lang, setLang, children, title, subtitle })
               </button>
             ))}
           </div>
+
         </div>
       </div>
 
       {/* ================= MAIN SECTION ================= */}
       <div className="flex flex-1">
 
-        {/* LEFT SECTION */}
+        {/* LEFT SECTION - INFO */}
         <div className="hidden md:flex w-1/2 p-10 flex-col justify-center">
+
           <h2 className="text-3xl font-bold mb-4">
-            {tr("features.f1", lang)}
+            {tr("features.title", lang)}
           </h2>
 
           <ul className="space-y-3 text-sm opacity-90 mb-6">
@@ -59,20 +68,29 @@ export default function AuthLayout({ lang, setLang, children, title, subtitle })
           </ul>
 
           <div className="bg-black/30 rounded-xl p-4 w-full max-w-lg shadow-lg">
-            <p className="text-xs opacity-70">AKS DigiRec Demo Preview</p>
+            <p className="text-xs opacity-70">
+              {tr("features.preview", lang)}
+            </p>
             <div className="mt-3 bg-black/50 rounded-lg h-40 flex items-center justify-center text-sm opacity-60">
-              ▶ Demo Video / Image Here
+              ▶ {tr("features.demo", lang)}
             </div>
           </div>
         </div>
 
-        {/* RIGHT SECTION (FORM SLOT) */}
+        {/* RIGHT SECTION - FORM */}
         <div className="w-full md:w-1/2 flex items-center justify-center bg-white text-gray-800">
           <div className="w-full max-w-md p-8">
-            <h2 className="text-2xl font-bold mb-2">{title}</h2>
-            <p className="text-sm text-gray-500 mb-6">{subtitle}</p>
+
+            <h2 className="text-2xl font-bold mb-2">
+              {tr(titleKey, lang)}
+            </h2>
+
+            <p className="text-sm text-gray-500 mb-6">
+              {tr(subtitleKey, lang)}
+            </p>
 
             {children}
+
           </div>
         </div>
       </div>

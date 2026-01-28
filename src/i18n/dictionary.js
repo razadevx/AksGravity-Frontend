@@ -202,5 +202,13 @@ activity: {
     ur: "اسٹاک اپڈیٹ: مٹی +200 کلو",
   },
 },
+nav: {
+  dashboard: { en: "Dashboard", ur: "ڈیش بورڈ" },
+  masterData: { en: "Master Data", ur: "ماسٹر ڈیٹا" },
+  workers: { en: "Workers", ur: "مزدور" },
+  production: { en: "Production", ur: "پیداوار" },
+  cashRegister: { en: "Cash Register", ur: "کیش رجسٹر" },
+  logout: { en: "Logout", ur: "لاگ آؤٹ" },
+},
 
 };

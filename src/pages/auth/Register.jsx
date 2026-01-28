@@ -2,10 +2,13 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import api from "../../services/api";
 import { translate as tr } from "../../i18n/translate";
+import { useLanguage } from "../../i18n/LanguageContext";
 import AuthLayout from "../../components/auth/AuthLayout";
 
 export default function Register() {
   const navigate = useNavigate();
+  const { lang } = useLanguage(); // ✅ GLOBAL LANGUAGE
+
   const [form, setForm] = useState({
     companyName: "",
     adminName: "",
@@ -14,7 +17,6 @@ export default function Register() {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [lang, setLang] = useState("EN");
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -40,11 +42,9 @@ export default function Register() {
   };
 
   return (
-    <AuthLayout
-      lang={lang}
-      setLang={setLang}
-      title={tr("register.title", lang)}
-      subtitle="Register your company to start using AKS DigiRec"
+    <AuthLayout 
+      titleKey="register.title" 
+      subtitleKey="register.subtitle"
     >
       {error && <p className="text-red-500 mb-3">{error}</p>}
 
@@ -56,6 +56,7 @@ export default function Register() {
           </label>
           <input
             name="companyName"
+            placeholder={tr("register.companyName", lang)}
             onChange={handleChange}
             className="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
           />
@@ -67,6 +68,7 @@ export default function Register() {
           </label>
           <input
             name="adminName"
+            placeholder={tr("register.adminName", lang)}
             onChange={handleChange}
             className="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
           />
@@ -79,6 +81,7 @@ export default function Register() {
           <input
             name="email"
             type="email"
+            placeholder={tr("register.email", lang)}
             onChange={handleChange}
             className="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
           />
@@ -91,6 +94,7 @@ export default function Register() {
           <input
             name="password"
             type="password"
+            placeholder={tr("register.password", lang)}
             onChange={handleChange}
             className="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
           />

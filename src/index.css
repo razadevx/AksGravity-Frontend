@@ -6,3 +6,15 @@
 body {
   font-family: Inter, system-ui, sans-serif;
 }
+
+/* Prevent Urdu from breaking layout */
+.urdu-text {
+  font-family: "Noto Nastaliq Urdu", serif;
+  font-size: 0.85em;
+  line-height: 1.2;
+}
+
+/* Prevent navbar overflow */
+.nav-item {
+  min-width: max-content;
+}
