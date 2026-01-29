@@ -7,7 +7,7 @@ import AuthLayout from "../../components/auth/AuthLayout";
 
 export default function Register() {
   const navigate = useNavigate();
-  const { lang } = useLanguage(); // ✅ GLOBAL LANGUAGE
+  const { lang } = useLanguage();
 
   const [form, setForm] = useState({
     companyName: "",
@@ -15,6 +15,7 @@ export default function Register() {
     email: "",
     password: "",
   });
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -24,11 +25,26 @@ export default function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     setError("");
 
+    // ✅ BASIC FRONTEND VALIDATION
+    if (!form.companyName || !form.adminName || !form.email || !form.password) {
+      setError(tr("errors.allFieldsRequired", lang) || "All fields are required");
+      return;
+    }
+
+    setLoading(true);
+
     try {
-      const res = await api.post("/auth/register", form);
+      // 🔑 IMPORTANT: map adminName -> name
+      const payload = {
+        companyName: form.companyName,
+        name: form.adminName,
+        email: form.email,
+        password: form.password,
+      };
+
+      const res = await api.post("/auth/register", payload);
 
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
@@ -42,21 +58,17 @@ export default function Register() {
   };
 
   return (
-    <AuthLayout 
-      titleKey="register.title" 
-      subtitleKey="register.subtitle"
-    >
+    <AuthLayout titleKey="register.title" subtitleKey="register.subtitle">
       {error && <p className="text-red-500 mb-3">{error}</p>}
 
       <form onSubmit={handleSubmit} className="space-y-4">
-
         <div>
           <label className="text-sm font-medium">
             {tr("register.companyName", lang)}
           </label>
           <input
             name="companyName"
-            placeholder={tr("register.companyName", lang)}
+            value={form.companyName}
             onChange={handleChange}
             className="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
           />
@@ -68,7 +80,7 @@ export default function Register() {
           </label>
           <input
             name="adminName"
-            placeholder={tr("register.adminName", lang)}
+            value={form.adminName}
             onChange={handleChange}
             className="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
           />
@@ -81,7 +93,7 @@ export default function Register() {
           <input
             name="email"
             type="email"
-            placeholder={tr("register.email", lang)}
+            value={form.email}
             onChange={handleChange}
             className="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
           />
@@ -94,7 +106,7 @@ export default function Register() {
           <input
             name="password"
             type="password"
-            placeholder={tr("register.password", lang)}
+            value={form.password}
             onChange={handleChange}
             className="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
           />

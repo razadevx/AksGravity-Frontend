@@ -7,12 +7,20 @@ import AuthLayout from "../../components/auth/AuthLayout";
 
 export default function Login() {
   const navigate = useNavigate();
-  const { lang } = useLanguage(); // ✅ GLOBAL LANGUAGE
-  const [form, setForm] = useState({ email: "", password: "" });
+  const { lang } = useLanguage(); // 🌍 GLOBAL LANGUAGE
+
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
+
   const [error, setError] = useState("");
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -20,7 +28,15 @@ export default function Login() {
     setError("");
 
     try {
-      const res = await api.post("/auth/login", form);
+      const res = await api.post("/auth/login", {
+        email: form.email.trim(),
+        password: form.password,
+      });
+
+      // ✅ BACKEND RETURNS { user, token }
+      if (!res.data?.token || !res.data?.user) {
+        throw new Error("Invalid server response");
+      }
 
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
@@ -32,11 +48,10 @@ export default function Login() {
   };
 
   return (
-    <AuthLayout 
-      titleKey="login.title" 
-      subtitleKey="login.subtitle"
+    <AuthLayout
+      title={tr("login.title", lang)}
+      subtitle={tr("login.subtitle", lang)}
     >
-
       {error && <p className="text-red-500 mb-3">{error}</p>}
 
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -48,6 +63,8 @@ export default function Login() {
           <input
             name="email"
             type="email"
+            value={form.email}
+            required
             placeholder={tr("login.emailPlaceholder", lang)}
             onChange={handleChange}
             className="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
@@ -61,13 +78,18 @@ export default function Login() {
           <input
             name="password"
             type="password"
+            value={form.password}
+            required
             placeholder={tr("login.passwordPlaceholder", lang)}
             onChange={handleChange}
             className="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
           />
         </div>
 
-        <button className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-2 rounded-lg font-semibold hover:opacity-90 transition">
+        <button
+          type="submit"
+          className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-2 rounded-lg font-semibold hover:opacity-90 transition"
+        >
           {tr("login.button", lang)}
         </button>
       </form>
@@ -78,7 +100,6 @@ export default function Login() {
           {tr("login.register", lang)}
         </Link>
       </p>
-
     </AuthLayout>
   );
 }

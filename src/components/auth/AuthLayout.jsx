@@ -1,18 +1,31 @@
 import { translate as tr } from "../../i18n/translate";
 import { useLanguage } from "../../i18n/LanguageContext";
 
-export default function AuthLayout({ children, titleKey, subtitleKey }) {
+export default function AuthLayout({
+  children,
+  titleKey,
+  subtitleKey,
+  title,
+  subtitle,
+}) {
   const { lang, setLang } = useLanguage();
+
+  // ✅ Resolve title safely
+  const resolvedTitle =
+    title || (titleKey ? tr(titleKey, lang) : "");
+
+  const resolvedSubtitle =
+    subtitle || (subtitleKey ? tr(subtitleKey, lang) : "");
 
   return (
     <div
       className="min-h-screen bg-gradient-to-br from-indigo-700 via-purple-700 to-pink-600 text-white flex flex-col"
-      dir="ltr"   // ✅ Prevent Urdu from flipping layout
+      dir="ltr" // ✅ Prevent Urdu from flipping layout
     >
       {/* ================= TOP BAR ================= */}
       <div className="flex justify-between items-center px-6 py-3 bg-black/30 backdrop-blur-md">
 
-        {/* Left: Logo + Company Info */}
+        {/* Logo */}
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-purple-700 font-bold">
             AKS
@@ -29,11 +42,9 @@ export default function AuthLayout({ children, titleKey, subtitleKey }) {
 
         {/* Right: Contact + Language */}
         <div className="flex items-center gap-4 text-sm">
-
           <span>📱 +92 300 6238557</span>
           <span>✉️ aksdigirec@gmail.com</span>
 
-          {/* Language Toggle */}
           <div className="flex bg-white/20 rounded-full overflow-hidden text-xs">
             {["EN", "UR", "BOTH"].map((l) => (
               <button
@@ -47,16 +58,14 @@ export default function AuthLayout({ children, titleKey, subtitleKey }) {
               </button>
             ))}
           </div>
-
         </div>
       </div>
 
-      {/* ================= MAIN SECTION ================= */}
+      {/* ================= MAIN ================= */}
       <div className="flex flex-1">
 
-        {/* LEFT SECTION - INFO */}
+        {/* LEFT SECTION */}
         <div className="hidden md:flex w-1/2 p-10 flex-col justify-center">
-
           <h2 className="text-3xl font-bold mb-4">
             {tr("features.title", lang)}
           </h2>
@@ -77,17 +86,21 @@ export default function AuthLayout({ children, titleKey, subtitleKey }) {
           </div>
         </div>
 
-        {/* RIGHT SECTION - FORM */}
+        {/* RIGHT SECTION */}
         <div className="w-full md:w-1/2 flex items-center justify-center bg-white text-gray-800">
           <div className="w-full max-w-md p-8">
 
-            <h2 className="text-2xl font-bold mb-2">
-              {tr(titleKey, lang)}
-            </h2>
+            {resolvedTitle && (
+              <h2 className="text-2xl font-bold mb-2">
+                {resolvedTitle}
+              </h2>
+            )}
 
-            <p className="text-sm text-gray-500 mb-6">
-              {tr(subtitleKey, lang)}
-            </p>
+            {resolvedSubtitle && (
+              <p className="text-sm text-gray-500 mb-6">
+                {resolvedSubtitle}
+              </p>
+            )}
 
             {children}
 
