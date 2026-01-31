@@ -27,8 +27,12 @@ export default function Register() {
     e.preventDefault();
     setError("");
 
-    // ✅ BASIC FRONTEND VALIDATION
-    if (!form.companyName || !form.adminName || !form.email || !form.password) {
+    if (
+      !form.companyName ||
+      !form.adminName ||
+      !form.email ||
+      !form.password
+    ) {
       setError(tr("errors.allFieldsRequired", lang) || "All fields are required");
       return;
     }
@@ -36,11 +40,11 @@ export default function Register() {
     setLoading(true);
 
     try {
-      // 🔑 IMPORTANT: map adminName -> name
       const payload = {
-        companyName: form.companyName,
-        name: form.adminName,
-        email: form.email,
+        companyName: form.companyName.trim(),
+        companyNameUrdu: "",
+        adminName: form.adminName.trim(),
+        email: form.email.trim(),
         password: form.password,
       };
 
