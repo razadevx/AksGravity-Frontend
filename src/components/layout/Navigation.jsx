@@ -11,6 +11,7 @@ import {
     Layers,
     Package,
     FileText,
+    CalendarCheck,
 } from 'lucide-react';
 
 const Navigation = () => {
@@ -24,6 +25,7 @@ const Navigation = () => {
         { path: '/dashboard', label: t('nav.dashboard'), labelUr: 'ڈیش بورڈ', icon: LayoutDashboard },
         { path: '/master-data', label: t('nav.masterData'), labelUr: 'ماسٹر ڈیٹا', icon: Database },
         { path: '/workers', label: t('nav.workers'), labelUr: 'کارکنان', icon: Users },
+        { path: '/attendance', label: t('nav.attendance'), labelUr: 'حاضری', icon: CalendarCheck,},
         { path: '/cash-register', label: t('nav.dailyCashRegister'), labelUr: 'کیش رجسٹر', icon: Wallet },
         { path: '/bank-cheques', label: t('nav.bankCheques'), labelUr: 'بینک اور چیک', icon: CreditCard },
         { path: '/composition', label: t('nav.compositionManager'), labelUr: 'کمپوزیشن', icon: Layers },

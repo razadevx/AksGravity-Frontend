@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
 import "./index.css";
@@ -7,6 +12,10 @@ import "./index.css";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import Dashboard from "./pages/Dashboard";
+import Attendance from "./pages/Attendance";
+import WorkerDashboard from "./pages/workers/WorkerDashboard";
+import MonthlySummary from "./pages/workers/MonthlySummary";
+
 
 // Protected Route (token-based)
 const ProtectedRoute = ({ children }) => {
@@ -27,6 +36,31 @@ function AppRoutes() {
         element={
           <ProtectedRoute>
             <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/workers"
+        element={
+          <ProtectedRoute>
+            <WorkerDashboard />
+          </ProtectedRoute>
+        }
+      />
+<Route
+  path="/workers/summary"
+  element={
+    <ProtectedRoute>
+      <MonthlySummary />
+    </ProtectedRoute>
+  }
+/>
+
+      <Route
+        path="/attendance"
+        element={
+          <ProtectedRoute>
+            <Attendance />
           </ProtectedRoute>
         }
       />

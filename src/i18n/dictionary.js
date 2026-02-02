@@ -237,6 +237,7 @@ export const dictionary = {
     dashboard: { en: "Dashboard", ur: "ڈیش بورڈ" },
     masterData: { en: "Master Data", ur: "ماسٹر ڈیٹا" },
     workers: { en: "Workers", ur: "مزدور" },
+    attendance: { en: "Attendance", ur: "حاضری" },
     production: { en: "Production", ur: "پیداوار" },
     cashRegister: { en: "Cash Register", ur: "کیش رجسٹر" },
     logout: { en: "Logout", ur: "لاگ آؤٹ" },
