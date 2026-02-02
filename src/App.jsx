@@ -14,7 +14,8 @@ import Register from "./pages/auth/Register";
 import Dashboard from "./pages/Dashboard";
 import Attendance from "./pages/Attendance";
 import WorkerDashboard from "./pages/workers/WorkerDashboard";
-import MonthlySummary from "./pages/workers/MonthlySummary";
+import MonthlyWorkerSummary from "./pages/workers/MonthlyWorkerSummary";
+
 
 
 // Protected Route (token-based)
@@ -48,10 +49,10 @@ function AppRoutes() {
         }
       />
 <Route
-  path="/workers/summary"
+  path="/workers/monthly-summary"
   element={
     <ProtectedRoute>
-      <MonthlySummary />
+      <MonthlyWorkerSummary />
     </ProtectedRoute>
   }
 />

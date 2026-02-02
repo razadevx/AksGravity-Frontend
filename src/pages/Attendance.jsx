@@ -16,7 +16,7 @@ export default function Attendance() {
     try {
       setLoading(true);
 
-      // 1️⃣ Load workers (SAFE extraction)
+      // 1️⃣ Load workers
       const workersRes = await api.get("/workers");
       const workersList = Array.isArray(workersRes.data)
         ? workersRes.data
@@ -35,7 +35,6 @@ export default function Attendance() {
       // 3️⃣ Merge workers + attendance
       const merged = workersList.map((w) => {
         const att = attendanceMap[w._id];
-
         return {
           _id: w._id,
           name: w.name,
@@ -53,19 +52,26 @@ export default function Attendance() {
     }
   };
 
-  const markAttendance = async (workerId, row) => {
+  // ✅ SAVE ALL — CORRECT & SAFE
+  const saveAllAttendance = async () => {
     try {
-      await api.post("/worker-attendance", {
-        workerId,
-        date,
-        status: row.status,
-        overtimeHours: row.overtimeHours,
-        remarks: row.remarks,
-      });
-      alert("Attendance saved");
-      loadData(); // refresh after save
+      for (const w of workers) {
+        await api.post("/worker-attendance", {
+          workerId: w._id,
+          date,
+          status: w.status,
+          overtimeHours: w.overtimeHours,
+          remarks: w.remarks,
+        });
+      }
+      alert("Attendance saved successfully");
+      loadData();
     } catch (err) {
-      alert(err.response?.data?.message || "Error saving attendance");
+      console.error(err);
+      alert(
+        err.response?.data?.message ||
+          "Some attendance records could not be saved"
+      );
     }
   };
 
@@ -73,6 +79,7 @@ export default function Attendance() {
     <div className="p-6">
       <h1 className="text-xl font-semibold mb-4">Worker Attendance</h1>
 
+      {/* DATE PICKER */}
       <div className="mb-4">
         <label className="mr-2 font-medium">Date:</label>
         <input
@@ -83,6 +90,15 @@ export default function Attendance() {
         />
       </div>
 
+      {/* SAVE BUTTON */}
+      <button
+        onClick={saveAllAttendance}
+        className="mb-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+      >
+        Save All Attendance
+      </button>
+
+      {/* TABLE */}
       {loading ? (
         <div className="text-gray-500">Loading...</div>
       ) : (
@@ -93,17 +109,13 @@ export default function Attendance() {
               <th className="border p-2">Status</th>
               <th className="border p-2">Overtime</th>
               <th className="border p-2">Remarks</th>
-              <th className="border p-2">Action</th>
             </tr>
           </thead>
 
           <tbody>
             {workers.length === 0 ? (
               <tr>
-                <td
-                  colSpan="5"
-                  className="text-center p-4 text-gray-500"
-                >
+                <td colSpan="4" className="text-center p-4 text-gray-500">
                   No workers found
                 </td>
               </tr>
@@ -112,7 +124,13 @@ export default function Attendance() {
                 <AttendanceRow
                   key={w._id}
                   worker={w}
-                  onSave={markAttendance}
+                  onChange={(updated) =>
+                    setWorkers((prev) =>
+                      prev.map((x) =>
+                        x._id === updated._id ? updated : x
+                      )
+                    )
+                  }
                 />
               ))
             )}
@@ -123,20 +141,21 @@ export default function Attendance() {
   );
 }
 
-/**
- * Inline row component
- */
-function AttendanceRow({ worker, onSave }) {
+/* ================= ROW ================= */
+
+function AttendanceRow({ worker, onChange }) {
   const [status, setStatus] = useState(worker.status);
   const [overtimeHours, setOvertimeHours] = useState(worker.overtimeHours);
   const [remarks, setRemarks] = useState(worker.remarks);
 
-  // 🔁 Sync state when worker data changes (date switch)
   useEffect(() => {
-    setStatus(worker.status);
-    setOvertimeHours(worker.overtimeHours);
-    setRemarks(worker.remarks);
-  }, [worker]);
+    onChange({
+      ...worker,
+      status,
+      overtimeHours,
+      remarks,
+    });
+  }, [status, overtimeHours, remarks]);
 
   return (
     <tr>
@@ -160,7 +179,9 @@ function AttendanceRow({ worker, onSave }) {
           min="0"
           disabled={status === "absent"}
           value={overtimeHours}
-          onChange={(e) => setOvertimeHours(Number(e.target.value))}
+          onChange={(e) =>
+            setOvertimeHours(Number(e.target.value))
+          }
           className="border px-2 py-1 w-20"
         />
       </td>
@@ -172,17 +193,6 @@ function AttendanceRow({ worker, onSave }) {
           onChange={(e) => setRemarks(e.target.value)}
           className="border px-2 py-1 w-full"
         />
-      </td>
-
-      <td className="border p-2 text-center">
-        <button
-          onClick={() =>
-            onSave(worker._id, { status, overtimeHours, remarks })
-          }
-          className="bg-blue-600 text-white px-3 py-1 rounded"
-        >
-          Save
-        </button>
       </td>
     </tr>
   );
