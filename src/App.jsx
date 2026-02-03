@@ -13,12 +13,13 @@ import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import Dashboard from "./pages/Dashboard";
 import Attendance from "./pages/Attendance";
+
+// Workers
 import WorkerDashboard from "./pages/workers/WorkerDashboard";
 import MonthlyWorkerSummary from "./pages/workers/MonthlyWorkerSummary";
+import Workers from "./pages/Workers"; // ✅ ADMIN workers module
 
-
-
-// Protected Route (token-based)
+// Protected Route
 const ProtectedRoute = ({ children }) => {
   const token = localStorage.getItem("token");
   return token ? children : <Navigate to="/login" replace />;
@@ -27,11 +28,11 @@ const ProtectedRoute = ({ children }) => {
 function AppRoutes() {
   return (
     <Routes>
-      {/* Public Routes */}
+      {/* ===== PUBLIC ===== */}
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
 
-      {/* Protected Routes */}
+      {/* ===== SHARED ===== */}
       <Route
         path="/dashboard"
         element={
@@ -40,22 +41,35 @@ function AppRoutes() {
           </ProtectedRoute>
         }
       />
+
+      {/* ===== ADMIN ===== */}
       <Route
         path="/workers"
+        element={
+          <ProtectedRoute>
+            <Workers />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* ===== OPERATOR ===== */}
+      <Route
+        path="/workers/dashboard"
         element={
           <ProtectedRoute>
             <WorkerDashboard />
           </ProtectedRoute>
         }
       />
-<Route
-  path="/workers/monthly-summary"
-  element={
-    <ProtectedRoute>
-      <MonthlyWorkerSummary />
-    </ProtectedRoute>
-  }
-/>
+
+      <Route
+        path="/workers/monthly-summary"
+        element={
+          <ProtectedRoute>
+            <MonthlyWorkerSummary />
+          </ProtectedRoute>
+        }
+      />
 
       <Route
         path="/attendance"
@@ -66,7 +80,7 @@ function AppRoutes() {
         }
       />
 
-      {/* Default Route */}
+      {/* ===== FALLBACK ===== */}
       <Route path="/" element={<Navigate to="/dashboard" />} />
       <Route path="*" element={<Navigate to="/dashboard" />} />
     </Routes>

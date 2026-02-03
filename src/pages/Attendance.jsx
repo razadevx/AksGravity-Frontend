@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
+import MainHeader from "../components/layout/MainHeader";
 
 const today = new Date().toISOString().split("T")[0];
 
@@ -16,15 +17,13 @@ export default function Attendance() {
     try {
       setLoading(true);
 
-      // 1️⃣ Load workers
       const workersRes = await api.get("/workers");
       const workersList = Array.isArray(workersRes.data)
         ? workersRes.data
         : workersRes.data.workers || [];
 
-      // 2️⃣ Load attendance for selected date
       const attendanceRes = await api.get(
-        `/worker-attendance?date=${date}`
+        `/worker-attendance?date=${date}`,
       );
 
       const attendanceMap = {};
@@ -32,7 +31,6 @@ export default function Attendance() {
         attendanceMap[a.workerId._id] = a;
       });
 
-      // 3️⃣ Merge workers + attendance
       const merged = workersList.map((w) => {
         const att = attendanceMap[w._id];
         return {
@@ -46,13 +44,12 @@ export default function Attendance() {
 
       setWorkers(merged);
     } catch (err) {
-      console.error("Failed to load attendance data", err);
+      console.error(err);
     } finally {
       setLoading(false);
     }
   };
 
-  // ✅ SAVE ALL — CORRECT & SAFE
   const saveAllAttendance = async () => {
     try {
       for (const w of workers) {
@@ -67,77 +64,82 @@ export default function Attendance() {
       alert("Attendance saved successfully");
       loadData();
     } catch (err) {
-      console.error(err);
-      alert(
-        err.response?.data?.message ||
-          "Some attendance records could not be saved"
-      );
+      alert("Some attendance records could not be saved");
     }
   };
 
   return (
-    <div className="p-6">
-      <h1 className="text-xl font-semibold mb-4">Worker Attendance</h1>
+    <>
+      <MainHeader />
 
-      {/* DATE PICKER */}
-      <div className="mb-4">
-        <label className="mr-2 font-medium">Date:</label>
-        <input
-          type="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-          className="border px-2 py-1 rounded"
-        />
+      <div className="max-w-7xl mx-auto px-6 py-8">
+        {/* HEADER */}
+        <div className="flex flex-wrap items-center justify-between mb-6 gap-4">
+          <h1 className="text-2xl font-bold">Worker Attendance</h1>
+
+          <div className="flex items-center gap-3">
+            <input
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              className="border rounded-lg px-3 py-2 text-sm"
+            />
+
+            <button
+              onClick={saveAllAttendance}
+              className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+            >
+              Save All
+            </button>
+          </div>
+        </div>
+
+        {/* CARD */}
+        <div className="bg-white rounded-xl shadow border overflow-hidden">
+          {loading ? (
+            <div className="p-6 text-gray-500">Loading attendance…</div>
+          ) : (
+            <table className="w-full">
+              <thead className="bg-gray-50 text-sm text-gray-600">
+                <tr>
+                  <th className="text-left p-4">Worker</th>
+                  <th className="p-4">Status</th>
+                  <th className="p-4">Overtime</th>
+                  <th className="p-4">Remarks</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {workers.length === 0 ? (
+                  <tr>
+                    <td
+                      colSpan="4"
+                      className="text-center p-6 text-gray-500"
+                    >
+                      No workers found
+                    </td>
+                  </tr>
+                ) : (
+                  workers.map((w) => (
+                    <AttendanceRow
+                      key={w._id}
+                      worker={w}
+                      onChange={(updated) =>
+                        setWorkers((prev) =>
+                          prev.map((x) =>
+                            x._id === updated._id ? updated : x,
+                          ),
+                        )
+                      }
+                    />
+                  ))
+                )}
+              </tbody>
+            </table>
+          )}
+        </div>
       </div>
-
-      {/* SAVE BUTTON */}
-      <button
-        onClick={saveAllAttendance}
-        className="mb-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
-      >
-        Save All Attendance
-      </button>
-
-      {/* TABLE */}
-      {loading ? (
-        <div className="text-gray-500">Loading...</div>
-      ) : (
-        <table className="w-full border">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="border p-2 text-left">Worker</th>
-              <th className="border p-2">Status</th>
-              <th className="border p-2">Overtime</th>
-              <th className="border p-2">Remarks</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {workers.length === 0 ? (
-              <tr>
-                <td colSpan="4" className="text-center p-4 text-gray-500">
-                  No workers found
-                </td>
-              </tr>
-            ) : (
-              workers.map((w) => (
-                <AttendanceRow
-                  key={w._id}
-                  worker={w}
-                  onChange={(updated) =>
-                    setWorkers((prev) =>
-                      prev.map((x) =>
-                        x._id === updated._id ? updated : x
-                      )
-                    )
-                  }
-                />
-              ))
-            )}
-          </tbody>
-        </table>
-      )}
-    </div>
+    </>
   );
 }
 
@@ -145,7 +147,9 @@ export default function Attendance() {
 
 function AttendanceRow({ worker, onChange }) {
   const [status, setStatus] = useState(worker.status);
-  const [overtimeHours, setOvertimeHours] = useState(worker.overtimeHours);
+  const [overtimeHours, setOvertimeHours] = useState(
+    worker.overtimeHours,
+  );
   const [remarks, setRemarks] = useState(worker.remarks);
 
   useEffect(() => {
@@ -157,23 +161,30 @@ function AttendanceRow({ worker, onChange }) {
     });
   }, [status, overtimeHours, remarks]);
 
-  return (
-    <tr>
-      <td className="border p-2">{worker.name}</td>
+  const statusColor =
+    status === "present"
+      ? "bg-green-100 text-green-700"
+      : status === "absent"
+      ? "bg-red-100 text-red-700"
+      : "bg-yellow-100 text-yellow-700";
 
-      <td className="border p-2">
+  return (
+    <tr className="border-t hover:bg-gray-50">
+      <td className="p-4 font-medium">{worker.name}</td>
+
+      <td className="p-4 text-center">
         <select
           value={status}
           onChange={(e) => setStatus(e.target.value)}
-          className="border px-2 py-1"
+          className={`px-3 py-1 rounded-full text-sm font-medium ${statusColor}`}
         >
-          <option value="present">Present</option>
-          <option value="absent">Absent</option>
-          <option value="half-day">Half-day</option>
+          <option value="present">present</option>
+          <option value="absent">absent</option>
+          <option value="half-day">half-day</option>
         </select>
       </td>
 
-      <td className="border p-2">
+      <td className="p-4 text-center">
         <input
           type="number"
           min="0"
@@ -182,16 +193,17 @@ function AttendanceRow({ worker, onChange }) {
           onChange={(e) =>
             setOvertimeHours(Number(e.target.value))
           }
-          className="border px-2 py-1 w-20"
+          className="border rounded-lg px-2 py-1 w-20 text-center"
         />
       </td>
 
-      <td className="border p-2">
+      <td className="p-4">
         <input
           type="text"
           value={remarks}
           onChange={(e) => setRemarks(e.target.value)}
-          className="border px-2 py-1 w-full"
+          placeholder="Optional note…"
+          className="border rounded-lg px-3 py-1 w-full text-sm"
         />
       </td>
     </tr>

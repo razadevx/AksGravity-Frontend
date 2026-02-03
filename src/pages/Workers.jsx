@@ -1,4 +1,4 @@
-import Navbar from "../components/Navbar";
+import MainHeader from "../components/layout/MainHeader";
 
 export default function Workers() {
   return (

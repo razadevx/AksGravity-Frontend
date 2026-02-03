@@ -66,7 +66,7 @@ export default function WorkerDashboard() {
       {/* ===== MAIN HEADER ===== */}
       <MainHeader />
 
-      <div className="min-h-screen bg-gray-50 px-6 py-6">
+      <div className="max-w-7xl mx-auto px-6 py-8">
         <h1 className="text-2xl font-bold text-gray-800 mb-6">
           Workers Dashboard
         </h1>

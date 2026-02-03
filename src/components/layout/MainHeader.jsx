@@ -7,6 +7,7 @@ export default function MainHeader() {
   const navigate = useNavigate();
 
   const user = JSON.parse(localStorage.getItem("user"));
+  const isAdmin = user?.role === "admin";
 
   const logout = () => {
     localStorage.removeItem("token");
@@ -14,11 +15,27 @@ export default function MainHeader() {
     navigate("/login");
   };
 
+  const navItems = [
+    { to: "/dashboard", key: "dashboard" },
+
+    // 👷 Operator-friendly dashboard
+    { to: "/workers/dashboard", key: "workersDashboard" },
+
+    // 🔐 Admin-only
+    isAdmin && { to: "/workers", key: "workers" },
+    isAdmin && { to: "/master-data", key: "masterData" },
+
+    // Shared
+    { to: "/attendance", key: "attendance" },
+    { to: "/production", key: "production" },
+    { to: "/cash-register", key: "cashRegister" },
+  ].filter(Boolean);
+
   return (
     <div className="bg-white border-b border-gray-200 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center gap-6">
 
-        {/* ================= LOGO + TITLE ================= */}
+        {/* ================= LOGO ================= */}
         <div className="flex items-center gap-3 min-w-[220px]">
           <div className="w-10 h-10 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold">
             AKS
@@ -35,13 +52,7 @@ export default function MainHeader() {
 
         {/* ================= NAVIGATION ================= */}
         <div className="hidden md:flex gap-6 text-sm font-medium text-gray-600 flex-wrap">
-          {[
-            { to: "/dashboard", key: "dashboard" },
-            { to: "/master-data", key: "masterData" },
-            { to: "/workers", key: "workers" },
-            { to: "/production", key: "production" },
-            { to: "/cash-register", key: "cashRegister" },
-          ].map((item) => (
+          {navItems.map((item) => (
             <NavLink
               key={item.key}
               to={item.to}
@@ -56,7 +67,7 @@ export default function MainHeader() {
           ))}
         </div>
 
-        {/* ================= RIGHT SECTION ================= */}
+        {/* ================= RIGHT ================= */}
         <div className="flex items-center gap-4">
 
           {/* Language Toggle */}
