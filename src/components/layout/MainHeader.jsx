@@ -18,15 +18,13 @@ export default function MainHeader() {
   const navItems = [
     { to: "/dashboard", key: "dashboard" },
 
-    // 👷 Operator-friendly dashboard
-    { to: "/workers/dashboard", key: "workersDashboard" },
-
-    // 🔐 Admin-only
+    // 🔐 Admin-only (Workers module)
     isAdmin && { to: "/workers", key: "workers" },
+
+    // Admin master data (future-safe)
     isAdmin && { to: "/master-data", key: "masterData" },
 
     // Shared
-    { to: "/attendance", key: "attendance" },
     { to: "/production", key: "production" },
     { to: "/cash-register", key: "cashRegister" },
   ].filter(Boolean);
@@ -56,6 +54,7 @@ export default function MainHeader() {
             <NavLink
               key={item.key}
               to={item.to}
+              end={item.to !== "/workers" ? true : false} 
               className={({ isActive }) =>
                 `nav-item hover:text-purple-600 transition text-center leading-tight ${
                   isActive ? "text-purple-600 font-semibold" : ""

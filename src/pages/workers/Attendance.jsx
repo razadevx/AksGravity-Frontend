@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import api from "../services/api";
-import MainHeader from "../components/layout/MainHeader";
+import api from "../../services/api";
+import MainHeader from "../../components/layout/MainHeader";
 
 const today = new Date().toISOString().split("T")[0];
 

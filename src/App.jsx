@@ -8,16 +8,20 @@ import { Provider } from "react-redux";
 import { store } from "./store/store";
 import "./index.css";
 
-// Pages
+// Auth
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
-import Dashboard from "./pages/Dashboard";
-import Attendance from "./pages/Attendance";
 
-// Workers
+// Core
+import Dashboard from "./pages/Dashboard";
+
+// Workers Module
+import WorkersLayout from "./pages/workers/WorkersLayout";
 import WorkerDashboard from "./pages/workers/WorkerDashboard";
+import Attendance from "./pages/workers/Attendance";
+import WorkersAdmin from "./pages/admin/WorkersAdmin";
+import WorkerCategoriesAdmin from "./pages/admin/WorkerCategoriesAdmin";
 import MonthlyWorkerSummary from "./pages/workers/MonthlyWorkerSummary";
-import Workers from "./pages/Workers"; // ✅ ADMIN workers module
 
 // Protected Route
 const ProtectedRoute = ({ children }) => {
@@ -32,7 +36,7 @@ function AppRoutes() {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
 
-      {/* ===== SHARED ===== */}
+      {/* ===== DASHBOARD ===== */}
       <Route
         path="/dashboard"
         element={
@@ -42,43 +46,21 @@ function AppRoutes() {
         }
       />
 
-      {/* ===== ADMIN ===== */}
+      {/* ===== WORKERS MODULE ===== */}
       <Route
         path="/workers"
         element={
           <ProtectedRoute>
-            <Workers />
+            <WorkersLayout />
           </ProtectedRoute>
         }
-      />
-
-      {/* ===== OPERATOR ===== */}
-      <Route
-        path="/workers/dashboard"
-        element={
-          <ProtectedRoute>
-            <WorkerDashboard />
-          </ProtectedRoute>
-        }
-      />
-
-      <Route
-        path="/workers/monthly-summary"
-        element={
-          <ProtectedRoute>
-            <MonthlyWorkerSummary />
-          </ProtectedRoute>
-        }
-      />
-
-      <Route
-        path="/attendance"
-        element={
-          <ProtectedRoute>
-            <Attendance />
-          </ProtectedRoute>
-        }
-      />
+      >
+        <Route index element={<WorkerDashboard />} />
+        <Route path="attendance" element={<Attendance />} />
+        <Route path="list" element={<WorkersAdmin />} />
+        <Route path="categories" element={<WorkerCategoriesAdmin />} />
+        <Route path="summary" element={<MonthlyWorkerSummary />} />
+      </Route>
 
       {/* ===== FALLBACK ===== */}
       <Route path="/" element={<Navigate to="/dashboard" />} />
