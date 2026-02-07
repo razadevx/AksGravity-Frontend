@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Users, CalendarCheck, CalendarX, Wallet, ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
-import MainHeader from "../../components/layout/MainHeader";
 
 const today = new Date().toISOString().split("T")[0];
 
@@ -62,11 +61,7 @@ export default function WorkerDashboard() {
   }, 0);
 
   return (
-    <>
-      {/* ===== MAIN HEADER ===== */}
-      <MainHeader />
-
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="max-w-7xl mx-auto px-0 py-8">
         <h1 className="text-2xl font-bold text-gray-800 mb-6">
           Workers Dashboard
         </h1>
@@ -186,7 +181,6 @@ export default function WorkerDashboard() {
           </>
         )}
       </div>
-    </>
   );
 }
 

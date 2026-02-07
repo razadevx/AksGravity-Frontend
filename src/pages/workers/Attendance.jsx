@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import api from "../../services/api";
-import MainHeader from "../../components/layout/MainHeader";
 
 const today = new Date().toISOString().split("T")[0];
 
@@ -69,10 +68,7 @@ export default function Attendance() {
   };
 
   return (
-    <>
-      <MainHeader />
-
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="max-w-7xl mx-auto px-0 py-8">
         {/* HEADER */}
         <div className="flex flex-wrap items-center justify-between mb-6 gap-4">
           <h1 className="text-2xl font-bold">Worker Attendance</h1>
@@ -139,7 +135,6 @@ export default function Attendance() {
           )}
         </div>
       </div>
-    </>
   );
 }
 

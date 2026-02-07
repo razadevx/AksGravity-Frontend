@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import api from "../../services/api";
-import MainHeader from "../../components/layout/MainHeader";
 
 export default function WorkersAdmin() {
   const [workers, setWorkers] = useState([]);
@@ -107,9 +106,8 @@ export default function WorkersAdmin() {
 
   return (
     <>
-      <MainHeader />
 
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="max-w-7xl mx-auto px-0 py-8">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold">Workers (Admin)</h1>
 

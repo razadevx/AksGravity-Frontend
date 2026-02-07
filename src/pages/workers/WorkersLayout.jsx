@@ -8,8 +8,8 @@ export default function WorkersLayout() {
       <MainHeader />
 
       {/* Page Body */}
-      <div className="max-w-7xl mx-auto px-6 py-6">
-        <h1 className="text-2xl font-bold mb-6">Workers</h1>
+      <div className="max-w-7xl mx-auto px-0 py-6">
+        <h1 className="text-2xl font-bold mb-6"></h1>
 
         {/* Sub Navigation */}
         <div className="flex gap-6 border-b mb-6">

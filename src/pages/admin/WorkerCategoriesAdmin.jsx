@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import api from "../../services/api";
-import MainHeader from "../../components/layout/MainHeader";
 
 export default function WorkerCategoriesAdmin() {
   const [categories, setCategories] = useState([]);
@@ -73,9 +72,8 @@ export default function WorkerCategoriesAdmin() {
 
   return (
     <>
-      <MainHeader />
 
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="max-w-7xl mx-auto px-0 py-8">
         <h1 className="text-2xl font-bold mb-6">
           Worker Categories (Admin)
         </h1>

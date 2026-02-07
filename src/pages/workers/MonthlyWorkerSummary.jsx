@@ -7,7 +7,6 @@ import {
   Wallet,
 } from "lucide-react";
 import api from "../../services/api";
-import MainHeader from "../../components/layout/MainHeader";
 
 const currentMonth = new Date().toISOString().slice(0, 7);
 
@@ -79,10 +78,7 @@ export default function MonthlyWorkerSummary() {
   const totalPayable = summary.reduce((s, w) => s + w.payable, 0);
 
   return (
-    <>
-      <MainHeader />
-
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="max-w-7xl mx-auto px-0 py-8">
         {/* ===== PAGE HEADER ===== */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
           <h1 className="text-2xl font-bold text-gray-800">
@@ -188,7 +184,6 @@ export default function MonthlyWorkerSummary() {
           )}
         </div>
       </div>
-    </>
   );
 }
 
