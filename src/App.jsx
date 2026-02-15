@@ -22,6 +22,9 @@ import Attendance from "./pages/workers/Attendance";
 import WorkersAdmin from "./pages/admin/WorkersAdmin";
 import WorkerCategoriesAdmin from "./pages/admin/WorkerCategoriesAdmin";
 import MonthlyWorkerSummary from "./pages/workers/MonthlyWorkerSummary";
+import PurchaseList from "./pages/purchases/PurchaseList";
+
+
 
 // Protected Route
 const ProtectedRoute = ({ children }) => {
@@ -60,11 +63,14 @@ function AppRoutes() {
         <Route path="list" element={<WorkersAdmin />} />
         <Route path="categories" element={<WorkerCategoriesAdmin />} />
         <Route path="summary" element={<MonthlyWorkerSummary />} />
+        
       </Route>
 
       {/* ===== FALLBACK ===== */}
       <Route path="/" element={<Navigate to="/dashboard" />} />
       <Route path="*" element={<Navigate to="/dashboard" />} />
+      <Route path="/purchases" element={<PurchaseList />} />
+
     </Routes>
   );
 }
