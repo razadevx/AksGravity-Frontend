@@ -23,6 +23,13 @@ import WorkersAdmin from "./pages/admin/WorkersAdmin";
 import WorkerCategoriesAdmin from "./pages/admin/WorkerCategoriesAdmin";
 import MonthlyWorkerSummary from "./pages/workers/MonthlyWorkerSummary";
 import PurchaseList from "./pages/purchases/PurchaseList";
+import MasterDataLayout from "./pages/masterData/MasterDataLayout";
+import SectionsPage from "./pages/masterData/sections/SectionsPage";
+import MaterialsPage from "./pages/masterData/materials/MaterialsPage";
+import SuppliersPage from "./pages/masterData/suppliers/SuppliersPage";
+import WorkersPage from "./pages/masterData/workers/WorkersPage";
+import CustomersPage from "./pages/masterData/customers/CustomersPage";
+import FinishedGoodsPage from "./pages/masterData/finishedGoods/FinishedGoodsPage";
 
 
 
@@ -66,10 +73,29 @@ function AppRoutes() {
         
       </Route>
 
+      {/* ===== MASTER DATA ===== */}
+      <Route
+        path="/master-data"
+        element={
+          <ProtectedRoute>
+            <MasterDataLayout />
+          </ProtectedRoute>
+        }
+      >
+        <Route index element={<SectionsPage />} />
+        <Route path="sections" element={<SectionsPage />} />
+        <Route path="materials" element={<MaterialsPage />} />
+        <Route path="suppliers" element={<SuppliersPage />} />
+        <Route path="workers" element={<WorkersPage />} />
+        <Route path="customers" element={<CustomersPage />} />
+        <Route path="finished-goods" element={<FinishedGoodsPage />} />
+      </Route>
+
+      <Route path="/purchases" element={<PurchaseList />} />
+
       {/* ===== FALLBACK ===== */}
       <Route path="/" element={<Navigate to="/dashboard" />} />
       <Route path="*" element={<Navigate to="/dashboard" />} />
-      <Route path="/purchases" element={<PurchaseList />} />
 
     </Routes>
   );

@@ -18,11 +18,11 @@ export default function MainHeader() {
   const navItems = [
     { to: "/dashboard", key: "dashboard" },
 
+    // Master Data is visible for all logged-in users
+    { to: "/master-data", key: "masterData" },
+
     // 🔐 Admin-only (Workers module)
     isAdmin && { to: "/workers", key: "workers" },
-
-    // Admin master data (future-safe)
-    isAdmin && { to: "/master-data", key: "masterData" },
 
     // Shared
     { to: "/production", key: "production" },
